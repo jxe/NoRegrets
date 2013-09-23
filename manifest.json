@@ -1,0 +1,31 @@
+{
+   "background": {
+      "scripts": [ "js/wips.js", "js/wipstats.js", "js/tools.js", "js/background.js" ]
+   },
+   "browser_action": {
+      "default_icon": "images/icon48.png",
+      "default_name": "NoRegrets",
+      "default_title": "No Regrets",
+      "default_popup": "popup.html"
+   },
+   "content_scripts": [ {
+      "js": [ "js/content.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_start"
+   } ],
+   "content_security_policy": "script-src 'self' https://*.google.com https://*.googleapis.com https://*.wips.com https://*.facebook.net https://*.twitter.com https://ssl.google-analytics.com; object-src 'self'",
+   "description": "Browse the web with no regrets.",
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon16.png",
+      "48": "images/icon48.png"
+   },
+   // "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDGwysuW0ni3RZMx4w0knmKF1dq8T3MmvD8wCzPs9Cm6fW5Cxuk1mPqXH4LFkNqopjgdJgY2zPDX7It9VxzuR48fRu4ptWwlViMcTusRvUVsnW5lpnaLTLpmE4O+0ofBQiz+djOgyNomYpvUf8oIIXs/MpJsL4if/Xqql1qVf8GIwIDAQAB",
+   "manifest_version": 2,
+   "name": "NoRegrets",
+   // "options_page": "options.html#_options",
+   "permissions": [ "tabs", "idle", "http://*/*", "https://*/*", "webRequest", "infobars" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0",
+   "web_accessible_resources": [ "images/icon48.png" ]
+}
