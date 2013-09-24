@@ -5,7 +5,7 @@
 	<link href='css/style.css' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-	
+	<script src="/js/jquery.transit.js"></script>
 
 </head>
 <body>
@@ -20,16 +20,31 @@
 	<iframe id="page" src="http://reddit.com"></iframe>
 	<script>
 		function openRegret(){
-			$('#page').animate({top: window.innerHeight-100})
+			$('#page')
+				.transition({scale: .5, boxShadow:"3px 3px 20px rgba(0,0,0,.5)"})
+
 			$('#bg').css({opacity: 1})
 
-			$('#bg h1').animate({fontSize: 35, paddingTop: 15}).text( $('#bg h1').text().slice(0,-3))
+			$('#bg h1')
+				.transition({
+					fontSize: 30,
+					paddingTop: 20,
+					left: '25%',
+					paddingLeft: 0
+				})
+				.text( $('#bg h1').text().slice(0,-3))
+			
+			$('.more')
+				.transition({
+					left: '25%'
+				})
+
 			$('#bg .more').fadeIn()
 
 		}
 
 		function closeRegret(){
-			$('#page').animate({top: 35})
+			$('#page').transition({top: 35})
 		}
 
 
@@ -42,7 +57,7 @@
 		})
 
 		function revealRegret(){
-			$('#page').animate({top: 35})
+			$('#page').transition({top: 35})
 		}
 
 		setTimeout( revealRegret, 700 )
