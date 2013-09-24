@@ -24,8 +24,8 @@
    "manifest_version": 2,
    "name": "NoRegrets",
    // "options_page": "options.html#_options",
-   "permissions": [ "tabs", "idle", "http://*/*", "https://*/*", "webRequest", "infobars" ],
+   "permissions": [ "tabs", "idle", "http://*/*", "https://*/*", "webRequest" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
    "version": "1.0",
-   "web_accessible_resources": [ "images/icon48.png" ]
+   "web_accessible_resources": [ "images/icon48.png", "regret_bar.html", "review_bar.html" ]
 }

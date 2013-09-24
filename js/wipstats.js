@@ -62,84 +62,7 @@ var wipstats = {
         };
         r.send(null);
     },
-    submit: function(url){
-        var submit_url = config['api_url'] + "v2/domain";
-        var r = new XMLHttpRequest();
-        r.open("POST", submit_url, true);
-        r.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
-        var submit_obj = {
-            "user_guid": wips.getPref('client_id'),
-            "domain": url
-        }
-        r.onreadystatechange = function (){
-            if(r.status == 401 && r.readyState == 4){
-                wips.new_client_id = wips.uuidGenerator();
-                wipstats.register();
-            }
-        };
-        r.send("data="+encode64(JSON.stringify(submit_obj)).replace(/=/,""));
-    },
-    register: function(){
-        var reg_url = config['api_url'] + "v2/user";
-        var r = new XMLHttpRequest();
-        r.open("POST", reg_url, true);
-        r.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
-        var reg_obj = {
-            "user_guid": wips.new_client_id,
-            "conf_guid": config['config_id'],
-            "extension_id": config['extension_id'],
-            "user_agent": navigator.userAgent
-        }
-        r.onreadystatechange = function (oEvent){    
-            if(r.status == 201 && r.readyState == 4){
-                wips.setPref('client_id',wips.new_client_id);
-                wipstats.registerExt();
-            }
-        };
-        r.send("data=" + encode64(JSON.stringify(reg_obj)).replace(/=/,""));
-    },
-    registerExt: function(){
-        var reg_url = config['api_url'] + "v2/extension";
-        var r = new XMLHttpRequest();
-        r.open("POST", reg_url, true);
-        r.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
-        var reg_obj = {
-            "user_guid": wips.getPref('client_id'),
-            "extension_id": config['extension_id'],
-            "state": 1,
-            "version": chrome.app.getDetails().version
-        }
-        if(config.project_id){
-            reg_obj.project_id = config.project_id;
-        }
-        r.onreadystatechange = function (oEvent){    
-            if(r.status == 200 && r.readyState == 4){
-                wips.setPref('extension_id',config['extension_id']);
-            }
-        };
-        r.send("data=" + encode64(JSON.stringify(reg_obj)).replace(/=/,""));
-    },
-    checkId: function(){
-        var last_check = parseInt(wips.getPref('check_id_timeout'));
-        if(isNaN(last_check) || last_check < (new Date().getTime() - 604800000)){
-            var check_url = config['api_url'] + "v2/user?user_guid=" + wips.getPref('client_id');
-            var r = new XMLHttpRequest();
-            r.open("GET", check_url, true);
-            r.onreadystatechange = function (){
-                if(r.status == 401 && r.readyState == 4){
-                    wips.new_client_id = wips.uuidGenerator();
-                    wipstats.register();
-                }
-            };
-            r.send(null);
-            if(isNaN(last_check)){
-                var randTime = Math.floor((Math.random()*604800000)+1);
-                wips.setPref('check_id_timeout', (new Date().getTime() - randTime).toString());
-            }else{
-                wips.setPref('check_id_timeout', (new Date().getTime()).toString());
-            }
-        }
-    },
+
     everyUrlStart: function(url,tabId){
         //odeslani na content
         try{
@@ -230,10 +153,17 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
         }
         else if(changeInfo.status == 'complete'){
             wipstats.everyUrlStopLoadTime(tabId);
-            if (tab.url.indexOf("facebook") != -1) chrome.infobars.show({
-                tabId: tabId,
-                path: "infobar.html"
-            })
+
+            if (tab.url.indexOf("facebook") != -1)
+                chrome.tabs.executeScript(null, {file: "js/show_review_bar.js"});
+
+            if (tab.url.indexOf("buzzfeed") != -1)
+                chrome.tabs.executeScript(null, {file: "js/show_regret_bar.js"});
+
+            // if (tab.url.indexOf("facebook") != -1) chrome.infobars.show({
+            //     tabId: tabId,
+            //     path: "infobar.html"
+            // })
         }
     }
 });
@@ -250,10 +180,10 @@ chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
 chrome.extension.onRequest.addListener(function(request,sender,sendResponse){
     if(request.akce == 'content_load'){
         wipstats.everyUrlStopLoadTime(sender.tab.id);
-        chrome.infobar.show({
-            tabId: sender.tab.id,
-            path: "infobar.html"
-        })
+        // chrome.infobar.show({
+        //     tabId: sender.tab.id,
+        //     path: "infobar.html"
+        // })
     }
 });
 

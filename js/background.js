@@ -1,5 +1,58 @@
 var options;
 
+var NoRegrets = {
+    currentURL: "",
+
+    addSomeTime: function(url, t) {},
+
+
+    // returns array of URL info
+    last_week_URLs: function() {
+
+    },
+
+    // returns URL info
+    info_for_URL: function() {
+
+    },
+
+    // returns array of URL info
+    most_regretted_URLs: function() {
+
+    },
+
+    // returns array of URL info
+    least_regretted_URLs: function() {
+        
+    }
+};
+
+
+
+// URL info
+var example_url_info_obj = {
+    blamed_url: "",
+    titles: [],
+    total_time_spent: 3,
+    bouts: [{
+        start_time:3,
+        end_time:3,
+        titles: []
+    }],
+    your_opinion: {
+        was_well_spent: false,
+        well_spent_because: "",
+        rather_be: ""
+    },
+    popular_opinions: [{
+        was_well_spent: false,
+        well_spent_because: "",
+        rather_be: ""
+    }]
+};
+
+
+
 function write(){//write today stats in localstorage
     var date = getDateToday();
     var visits = getVisits();
@@ -10,8 +63,6 @@ function write(){//write today stats in localstorage
 function fnGetDomain(url){
     return (url.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
 }
-
-checkHistoryLength();
 
 ////////////   N E W   S Y S T E M   ///////////
 
@@ -104,12 +155,12 @@ window.setInterval(function(){
         chrome.tabs.getSelected(null, function(tab){
             if(tab.url.indexOf("http://") != -1 || tab.url.indexOf("https://") != -1){
                 var options = getOptions();
-                chrome.idle.queryState(options.idle_time,function(newState){
-                    if(newState == 'active'){
-                        control.savePrefActive = true;
-                        control.checkActualUrl(tab.url,tab.id);
-                    }
-                });
+                // chrome.idle.queryState(options.idle_time,function(newState){
+                //     if(newState == 'active'){
+                //         control.savePrefActive = true;
+                //         control.checkActualUrl(tab.url,tab.id);
+                //     }
+                // });
             }
         });
     }
