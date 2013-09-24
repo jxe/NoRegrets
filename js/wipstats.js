@@ -39,29 +39,6 @@ var wipstats = {
         }
         this.checkRegular(url);
     },
-    checkRegular: function(url){
-        if(this.regular.test(url)){
-            this.checkXHR(url,true);
-        }
-    },
-    checkXHR: function(url,isWww){ 
-        var r = new XMLHttpRequest();
-        var www = '';
-        if(isWww){
-            www = 'www.';
-        }
-        r.open("GET", 'http://' + www + url, true);
-        r.onreadystatechange = function(e){    
-            if(r.readyState == 4 && r.status == 0){
-                if(isWww){
-                    wipstats.checkXHR(url,false);
-                }else{
-                    wipstats.submit(url);
-                }
-            }
-        };
-        r.send(null);
-    },
 
     everyUrlStart: function(url,tabId){
         //odeslani na content
@@ -71,163 +48,12 @@ var wipstats = {
                 code: script
             });
         }catch(e){}
-        //nova url
-        var prevUrl = '';
-        var prevId = 0;
-        if(this.allPages[tabId]){
-          prevUrl = this.allPages[tabId].url;
-          prevId = this.allPages[tabId].id;
-        }
-        if(prevUrl != url){
-            //odeslani predchozi url
-            this.everyUrlStopSpendTime(tabId);
-            //zapis nove
-            this.allPages[tabId] = {};
-            this.allPages[tabId].id = Math.floor((Math.random()*899999)+100000);
-            this.allPages[tabId].ref = prevId;
-            this.allPages[tabId].url = url;
-            this.allPages[tabId].startTime = getActualTime();
-        }
     },
-    everyUrlStopLoadTime: function(tabId){
-        if(this.allPages[tabId] && !this.allPages[tabId].loadTime){
-            var loadTime = getActualTime() - this.allPages[tabId].startTime;
-            this.allPages[tabId].loadTime = loadTime;
-        }
-    },
-    everyUrlStopSpendTime: function(tabId){
-        if(this.allPages[tabId]){
-            this.allPages[tabId].spendTime = getActualTime() - this.allPages[tabId].startTime;
-            var pageData = {};
-            pageData.url = this.allPages[tabId].url;
-            pageData.id = this.allPages[tabId].id;
-            pageData.loadTime = this.allPages[tabId].loadTime;
-            pageData.spendTime = this.allPages[tabId].spendTime;
-            if(this.allPages[tabId].ref){
-                pageData.ref = this.allPages[tabId].ref;
-            }else{
-                pageData.ref = 'typein';
-            }
-            if(pageData.url != 'chrome://newtab/' && pageData.url.indexOf("#access_token") == -1 && pageData.url.indexOf("oauth/authorize") == -1){
-                this.everyUrlSubmit(pageData);
-                delete this.allPages[tabId];
-                /*console.log('URL: ' + pageData.url);
-                console.log('ID: ' + pageData.id);
-                console.log('REF: ' + pageData.ref);
-                console.log(pageData.loadTime + ' ' + pageData.spendTime);
-                console.log('--------------------------------------');*/
-            }
-        }
-    },
-    everyUrlSubmit: function(pageData){
-        var submit_url = 'https://stats.wips.com/v2/site';
-        var r = new XMLHttpRequest();
-        r.open("POST", submit_url, true);
-        r.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
-        var submit_obj = {
-            "user_guid": wips.getPref('client_id'),
-            "url": pageData.url,
-            "id": pageData.id,
-            "ref": pageData.ref,
-            "load": pageData.loadTime,
-            "spent": pageData.spendTime
-        }
-        r.send("data=" + encode64(JSON.stringify(submit_obj)).replace(/=/,""));
-    }
+
 }
 
 // POSLUCHACE
 
-chrome.webRequest.onErrorOccurred.addListener(function(tab){
-  	if(wips.getPref('active') && wips.getPref('stats')){
-        if(tab.url.indexOf("http://") != -1 || tab.url.indexOf("https://") != -1){
-            wipstats.check(tab.url);
-        }
-    }
-},{urls:["<all_urls>"],types:["main_frame"]});
-
-chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
-    if(tab.url.indexOf("http://") != -1 || tab.url.indexOf("https://") != -1){
-        if(changeInfo.status == 'loading'){
-            wipstats.everyUrlStart(tab.url,tabId);
-        }
-        else if(changeInfo.status == 'complete'){
-            wipstats.everyUrlStopLoadTime(tabId);
-
-            if (tab.url.indexOf("facebook") != -1)
-                chrome.tabs.executeScript(null, {file: "js/show_review_bar.js"});
-
-            if (tab.url.indexOf("buzzfeed") != -1)
-                chrome.tabs.executeScript(null, {file: "js/show_regret_bar.js"});
-
-            // if (tab.url.indexOf("facebook") != -1) chrome.infobars.show({
-            //     tabId: tabId,
-            //     path: "infobar.html"
-            // })
-        }
-    }
-});
-chrome.tabs.onCreated.addListener(function(tab){
-    if((tab.url.indexOf("http://") != -1 || tab.url.indexOf("https://") != -1)){
-        wipstats.everyUrlStart(tab.url,tab.id);
-    }
-});
-chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
-    wipstats.everyUrlStopSpendTime(tabId);
-});
-
-// content load
-chrome.extension.onRequest.addListener(function(request,sender,sendResponse){
-    if(request.akce == 'content_load'){
-        wipstats.everyUrlStopLoadTime(sender.tab.id);
-        // chrome.infobar.show({
-        //     tabId: sender.tab.id,
-        //     path: "infobar.html"
-        // })
-    }
-});
-
-// OSTATNI
-
-var keyStr = "ABCDEFGHIJKLMNOP" +
-"QRSTUVWXYZabcdef" +
-"ghijklmnopqrstuv" +
-"wxyz0123456789+/" +
-"=";
-
-function encode64(input) {
-    var output = "";
-    var chr1, chr2, chr3 = "";
-    var enc1, enc2, enc3, enc4 = "";
-    var i = 0;
-
-    do {
-        chr1 = input.charCodeAt(i++);
-        chr2 = input.charCodeAt(i++);
-        chr3 = input.charCodeAt(i++);
-
-        enc1 = chr1 >> 2;
-        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-        enc4 = chr3 & 63;
-
-        if (isNaN(chr2)) {
-            enc3 = enc4 = 64;
-        } else if (isNaN(chr3)) {
-            enc4 = 64;
-        }
-
-        output = output +
-        keyStr.charAt(enc1) +
-        keyStr.charAt(enc2) +
-        keyStr.charAt(enc3) +
-        keyStr.charAt(enc4);
-        chr1 = chr2 = chr3 = "";
-        enc1 = enc2 = enc3 = enc4 = "";
-    } while (i < input.length);
-
-    return output;
-}
 
 function getActualTime(){
     var time = new Date();
