@@ -1,0 +1,55 @@
+<html>
+<head>
+	<title>Style Test</title>
+	<link href='css/reset-min.css' rel='stylesheet' type='text/css'>
+	<link href='css/style.css' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	
+
+</head>
+<body>
+	<div id="bg">
+		<h1>YOU'VE SPENT 3 HOURS THIS WEEK ON REDDIT...</h1>
+		<div class="more">
+			<h2>Mostly on pages like "50 ways to kill time" and looking at pictures of your ex</h2>
+			<div class="button">That Was Time Well Spent!</div>
+			<div class="button">Instead, I Wish I Had...</div>
+		</div>
+	</div>
+	<iframe id="page" src="http://reddit.com"></iframe>
+	<script>
+		function openRegret(){
+			$('#page').animate({top: window.innerHeight-100})
+			$('#bg').css({opacity: 1})
+
+			$('#bg h1').animate({fontSize: 35, paddingTop: 15}).text( $('#bg h1').text().slice(0,-3))
+			$('#bg .more').fadeIn()
+
+		}
+
+		function closeRegret(){
+			$('#page').animate({top: 35})
+		}
+
+
+		$('#bg').click(function(){
+			var top = $('#page').offset().top
+			if( top == 35 )
+				openRegret()
+			else
+				closeRegret()
+		})
+
+		function revealRegret(){
+			$('#page').animate({top: 35})
+		}
+
+		setTimeout( revealRegret, 700 )
+
+		//setTimeout( openRegret, 800)
+
+
+	</script>
+</body>
+</html>
