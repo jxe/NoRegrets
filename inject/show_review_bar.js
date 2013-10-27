@@ -1,6 +1,6 @@
 var height = "100px";
 var iframe = document.createElement('iframe');
-iframe.src = chrome.extension.getURL('regret_bar.html');
+iframe.src = chrome.extension.getURL('review_bar.html');
 iframe.style.height = height;
 iframe.style.width = '100%';
 iframe.style.position = 'fixed';

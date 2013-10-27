@@ -1,8 +1,75 @@
 TODO
 
+- port Aza's effect
+
 DESIGN
 - no regrets icon
 - badged version of icon for when you have a new review question from last week
 
 CODE
 - badged icon shows when you have a new review question from last week
+
+
+
+M1
+- button injects content script
+- kinda looks like aza's version
+
+M2
+- accurately tracks bouts
+- little time tracking engine, just w. active tab and time spent
+
+M3
+- autoinjects content script
+	- unreviewed
+	- onscroll
+	- with usage (excluding today's and in a one-week window) exceeding 30m
+	- scanning backwards from the present
+
+M4
+- has API that posts and pulls the right things with fake data
+
+M5
+- API works
+
+
+
+
+// returns array of URL info
+// last_week_URLs: function() {},
+
+// returns array of URL info
+// most_regretted_URLs: function() {},
+
+// returns array of URL info
+// least_regretted_URLs: function() {},
+
+
+
+    info_for_URL: function(url) {
+        url = fnGetDomain(url);
+        if (!url) return;
+        var result = { url: url };
+        result.opinion = DB.opinion(url);
+        result.bouts = DB.bouts(url);
+        result.total_time_spent = total_time_spent(result.bouts)
+        return result;
+    }
+
+
+    should_display_others_regret_for_URL: function(url) {
+        url = fnGetDomain(url);
+        if (!url) return;
+        return false;
+    },
+
+    should_display_past_regret_for_URL: function(url) {
+        url = fnGetDomain(url);
+        if (!url) return;
+        var opinion = DB.opinion(url);
+        if (opinion && opinion.would_rather_be) return true;
+        // if (tab.url.indexOf("facebook") != -1) return true;
+    },
+
+
+    chrome.tabs.executeScript(null, {file: "js/show_review_bar.js"});

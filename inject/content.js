@@ -1,5 +1,9 @@
 function sendFocus(focus){
-    chrome.extension.sendRequest({akce:'content', focus:focus},function(response){});
+    chrome.extension.sendRequest({
+    	akce:'content', 
+    	focus:focus,
+    	url: location.href
+    },function(response){});
 }
 
 window.addEventListener('focus',function(){
