@@ -120,22 +120,23 @@ chrome.runtime.onMessage.addListener(
   		var summary_data = NoRegrets.url_data;
 		if (!summary_data.common_ratings){
 			Page.common_ratings(summary_data.url, function(answer){
-		  		console.log("sending url data after fb: " + JSON.stringify(summary_data));
+		  		// console.log("sending url data after fb: " + JSON.stringify(summary_data));
 				summary_data.common_ratings = answer;
 				sendResponse({url_data:summary_data});
 			});
+			return true;
 		} else {
-	  		console.log("sending url data: " + JSON.stringify(summary_data));
+	  		// console.log("sending url data: " + JSON.stringify(summary_data));
 		  	sendResponse({url_data:summary_data});			
 		}
   	}
 
     if(request.akce == 'content'){
         if (request.focus == 'focus') {
-		    console.log("content focused");
+		    // console.log("content focused");
             Controller.on_user_focused_on_url(request.url, sender.tab);
         } else if (request.focus == 'blur') {
-		    console.log("content blurred");
+		    // console.log("content blurred");
             Controller.on_user_blurred_on_url(request.url, sender.tab, sender.tab.title);
         }
     }
