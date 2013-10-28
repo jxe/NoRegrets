@@ -1,6 +1,26 @@
 TODO
 
-- port Aza's effect
+M1 (25m)
+* [5m] de-dup and cap titles array in firebase
+* [20m] cute textual summary of hours regretted, tws hours, common wishes
+
+M2 (2h)
+* make buttons turn to typeahead comboboxes on hover
+* load up typeahead comboboxes w. common answers for url
+
+M4
+* support blame url in blur handler
+* check more than direct time in is_ripe_for_review
+* global setting for when to ask for review, and when to show others' alert
+
+
+LATER
+* more titles in list of titles on review bar
+* fix firebase transaction in Page.add_rating
+
+
+---- OLDER ----
+
 
 DESIGN
 - no regrets icon
@@ -8,29 +28,6 @@ DESIGN
 
 CODE
 - badged icon shows when you have a new review question from last week
-
-
-
-M1
-- button injects content script
-- kinda looks like aza's version
-
-M2
-- accurately tracks bouts
-- little time tracking engine, just w. active tab and time spent
-
-M3
-- autoinjects content script
-	- unreviewed
-	- onscroll
-	- with usage (excluding today's and in a one-week window) exceeding 30m
-	- scanning backwards from the present
-
-M4
-- has API that posts and pulls the right things with fake data
-
-M5
-- API works
 
 
 

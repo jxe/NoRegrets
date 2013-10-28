@@ -2,14 +2,19 @@
 <html>
 <head>
     <title>No Regrets</title>
-    <script type="text/javascript" src="js/popup.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
 </head>
 
 <body>
     <div id="wrapper">
+    	<p><a id="foo" href="#">Show Review Bar</a></p>
         <p><a target="_" href="weekly_review.html">Review Last Week</a></p>
         <p><a target="_" href="leaderboard.html">Personal Leaderboard</a></p>
         <p><a target="_" href="leaderboard.html">Global Leaderboard</a></p>
     </div>
 </body>
 </html>
+
+<script type="text/javascript">
+document.getElementById('foo').onclick = Controller.show_review_prompt;
+</script>

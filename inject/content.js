@@ -1,5 +1,5 @@
 function sendFocus(focus){
-    chrome.extension.sendRequest({
+    chrome.extension.sendMessage({
     	akce:'content', 
     	focus:focus,
     	url: location.href

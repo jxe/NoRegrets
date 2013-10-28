@@ -1,19 +1,22 @@
 {
-   "background": {
-      "scripts": [ "js/wipstats.js", "js/background.js" ]
-   },
+   "web_accessible_resources": [ 
+      "images/icon48.png", "inject/regret_bar.html", "inject/review_bar.html",
+      "images/bgs/sea.png", "css/style.css", "css/reset-min.css"
+   ],
+
+   "content_security_policy": "script-src 'self' https://*.google.com https://*.googleapis.com https://code.jquery.com https://cdnjs.cloudflare.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
+
    "browser_action": {
       "default_icon": "images/icon48.png",
       "default_name": "NoRegrets",
       "default_title": "No Regrets",
-      "default_popup": "popup.html"
+      "DISABLED_default_popup": "popup.html"
    },
    "content_scripts": [ {
-      "js": [ "js/content.js" ],
+      "js": [ "inject/content.js" ],
       "matches": [ "http://*/*", "https://*/*" ],
       "run_at": "document_start"
    } ],
-   "content_security_policy": "script-src 'self' https://*.google.com https://*.googleapis.com https://*.wips.com https://*.facebook.net https://*.twitter.com https://ssl.google-analytics.com; object-src 'self'",
    "description": "Browse the web with no regrets.",
    "icons": {
       "128": "images/icon128.png",
@@ -22,8 +25,8 @@
    },
    "manifest_version": 2,
    "name": "NoRegrets",
-   "permissions": [ "tabs", "idle", "http://*/*", "https://*/*", "webRequest" ],
+   "background": { "page": "main.html" },
+   "permissions": [ "tabs", "idle", "webRequest", "http://*/*", "https://*/*" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.0",
-   "web_accessible_resources": [ "images/icon48.png", "regret_bar.html", "review_bar.html" ]
+   "version": "1.0"
 }

@@ -6,7 +6,7 @@
 	color: white;
 	font-size: 30px;
 	background-image: url(/images/bgs/sea.png);
-	background-position: bottom;
+	/*background-position: bottom;*/
 	background-size: 100%;
 	opacity: .8;
 	cursor: pointer;
@@ -35,6 +35,8 @@
 .button:hover{
 	background-color: rgba(255,255,255, .5);
 }
+
+#others_rated { font-size: 13px; margin-top: 20px; }
 
 iframe#page{
 	border-width: 0;

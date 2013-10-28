@@ -9,17 +9,18 @@ NRHistory = {
 	// url = site
 	// blame_url = addl url to blame for visit (e.g. fb or twitter)
 	add: function(t, dt, url, title, blame_url){
+		console.log('adding ' + dt + " to " + url);
 		this.incr_bout(url, 'dt', t, dt, url, title);
 		if (blame_url) this.incr_bout(blame_url, 'it', t, dt, url, title);
 	},
 
 	// dt = direct time, it = indirect time, titles = some page titles
 	query: function(url){
-		var sum = { dt: 0, it: 0, titles: [] };
-		var root_domain = this.root_domain(to_url);
+		var root_domain = this.root_domain(url);
+		var sum = { url: root_domain, dt: 0, it: 0, titles: [] };
 		var weeks = [this.weeks_ago(0), this.weeks_ago(1), this.weeks_ago(2)];
 		this.each_bout_in_weeks(root_domain, weeks, function(bout){
-			this.add_bout_to_sum(sum, bout);
+			NRHistory.add_bout_to_sum(sum, bout);
 		});
 		return sum;
 	},
@@ -29,15 +30,15 @@ NRHistory = {
 	// private
 
 	start_of_day: function(t){
-		var start = new Date(t);
+		var start = t ? new Date(t) : new Date();
 		start.setHours(0,0,0,0);
 		return start.getTime();
 	},
 
 	start_of_week: function(t){
-		var start = new Date(t);
+		var start = t ? new Date(t) : new Date();
 		var first = start.getDate() - start.getDay();
-		start.setDate(first));
+		start.setDate(first);
 		start.setHours(0,0,0,0);
 		return start.getTime();
 	},
@@ -46,8 +47,8 @@ NRHistory = {
 		var root_domain = this.root_domain(to_url);
 		var bout = this.find_or_create(root_domain, t);
 		bout[type] = bout[type] + dt;
-		if (!bout[visits][url]) bout[visits][url] = {title:title, t:0};
-		bout[visits][url].t = bout[visits][url].t + dt;
+		if (!bout.visits[url]) bout.visits[url] = {title:title, t:0};
+		bout.visits[url].t = bout.visits[url].t + dt;
 		localStorage[bout.id] = JSON.stringify(bout);
 	},
 
@@ -55,16 +56,16 @@ NRHistory = {
 		return this.find(root_domain, t) || this.create(root_domain, t);
 	},
 
-	find: funtion(root_domain, t){
+	find: function(root_domain, t){
 		var sod = this.start_of_day(t);
 		var bouts_on_day = localStorage[root_domain + "/day:" + sod];
 		if (bouts_on_day){
 			var first = bouts_on_day.split(', ')[0];
-			return JSON.parse(localStorage[first]);
+			if (localStorage[first]) return JSON.parse(localStorage[first]);
 		}
 	},
 
-	create: funtion(root_domain, t){
+	create: function(root_domain, t){
 		var id = root_domain + "/bout:" + t;
 		var bout = { id: id, dt: 0, it: 0, visits: {} };
 		var sod = this.start_of_day(t);
@@ -94,10 +95,12 @@ NRHistory = {
 
 	each_bout_in_weeks: function(root_domain, weeks, fn){
 		weeks.forEach(function(week){
-			var days = localStorage[root_domain + "/week:" + week];
+			// console.log('checking week: ' + week);
+			var days = localStorage[root_domain + "/week:" + week + "/days"];
 			if (days){
 				days.split(', ').forEach(function(day){
-					var bouts = localstorage[root_domain + "/day:" + day];
+					// console.log('checking day: ' + day);
+					var bouts = localStorage[root_domain + "/day:" + day];
 					bouts.split(', ').forEach(function(bout_id){
 						fn(JSON.parse(localStorage[bout_id]));
 					});
