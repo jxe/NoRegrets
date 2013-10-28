@@ -77,23 +77,12 @@ function summarize_user_count_and_hours(subtree, what){
   return subtree.ct + " users who've spent a collective " + moment.duration(subtree.dt).humanize() + " found it " + what;
 }
 
-function wishes (data) {
-  var wishes = [];
-  var m;
-  Object.keys(data).forEach(function(k){
-    if (m = k.match(/^suboptimal:(.*)/)){
-      if (m[1] != '*') wishes.push(m[1]);
-    }
-  });
-  return wishes.join(', ');
-}
-
 function cute_summary_of_ratings(data){
   var findings = [];
   if (data["tws:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "time well spent"));
   if (data["suboptimal:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "suboptimal"));
   var str = findings.join(' and ') + "<br>";
-  if (data["suboptimal:*"]) str += "<br>Those that found it suboptimal wish they'd been: " + wishes(data);
+  if (data.top_wishes) str += "<br>Those that found it suboptimal wish they'd been: " + data.top_wishes.join(', ');
   return str;
   // return "Others have rated it: " + JSON.stringify(Object.keys(data));
 }

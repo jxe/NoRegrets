@@ -49,9 +49,23 @@ Page = {
 	common_ratings: function(url, callback){
 		var eurl = Page.escape_url(url);
 		F.child('urls').child(eurl).limit(100).on('value', function(snap){
-			callback(snap.val());
+			var val = snap.val();
+			if (val) val.top_wishes = Page.wishes(val);
+			callback(val);
 		});
+	},
+
+	wishes: function(data) {
+	  var wishes = [];
+	  var m;
+	  Object.keys(data).forEach(function(k){
+	    if (m = k.match(/^suboptimal:(.*)/)){
+	      if (m[1] != '*') wishes.push(m[1]);
+	    }
+	  });
+	  return wishes.length ? wishes : null;
 	}
+
 };
 
 
