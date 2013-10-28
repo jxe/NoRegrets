@@ -4,7 +4,7 @@ var F = new Firebase('https://no-regrets.firebaseio.com');
 
 Page = {
 	escape_url: function(url){
-		return url.replace('.', '•').replace('/', '»');
+		return url.replace(/\./g, '•').replace(/\//g, '»');
 	},
 
 	rollup_rating: function(rating){
@@ -33,7 +33,7 @@ Page = {
 			var eurl = Page.escape_url(url);
 			[obj.rating, Page.rollup_rating(obj.rating)].forEach(function(rating){
 				// TODO: a problem for facebook.com/suboptimal:*, google.com/tws:*, etc
-				F.child('urls/' + eurl + '/' + rating).transaction(function(val){
+				F.child('urls').child(eurl).child(rating).transaction(function(val){
 					if (!val) val = { dt:0, it:0, ct:0, titles: [] };
 					val.dt += obj.dt;
 					val.it += obj.it;
@@ -48,7 +48,7 @@ Page = {
 
 	common_ratings: function(url, callback){
 		var eurl = Page.escape_url(url);
-		F.child('urls/' + eurl).limit(100).on('value', function(snap){
+		F.child('urls').child(eurl).limit(100).on('value', function(snap){
 			callback(snap.val());
 		});
 	}

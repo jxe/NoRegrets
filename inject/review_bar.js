@@ -73,13 +73,38 @@ $('#suboptimal').click(function(){
     if (wish) review_as('suboptimal:' + wish);
 });
 
+function summarize_user_count_and_hours(subtree, what){
+  return subtree.ct + " users who've spent a collective " + moment.duration(subtree.dt).humanize() + " found it " + what;
+}
+
+function wishes (data) {
+  var wishes = [];
+  var m;
+  Object.keys(data).forEach(function(k){
+    if (m = k.match(/^suboptimal:(.*)/)){
+      if (m[1] != '*') wishes.push(m[1]);
+    }
+  });
+  return wishes.join(', ');
+}
+
+function cute_summary_of_ratings(data){
+  var findings = [];
+  if (data["tws:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "time well spent"));
+  if (data["suboptimal:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "suboptimal"));
+  var str = findings.join(' and ') + "<br>";
+  if (data["suboptimal:*"]) str += "<br>Those that found it suboptimal wish they'd been: " + wishes(data);
+  return str;
+  // return "Others have rated it: " + JSON.stringify(Object.keys(data));
+}
+
 chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     console.log("got response to gimme_url_data: " + JSON.stringify(response));
     review_data = response.url_data;
     $('#url').html(response.url_data.url);
     $('#total_direct_time').html(moment.duration(response.url_data.dt, 'ms').humanize());
     $('#title').html(response.url_data.titles[0]);
-    $('#others_rated').html("Others have rated it: " + JSON.stringify(Object.keys(response.url_data.common_ratings)));
+    $('#others_rated').html(cute_summary_of_ratings(response.url_data.common_ratings));
 });
 
 window.onresize = function(){
