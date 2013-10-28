@@ -2,7 +2,8 @@ TODO
 
 M1 (25m)
 * [5m] de-dup and cap titles array in firebase
-* [20m] cute textual summary of hours regretted, tws hours, common wishes
+* harden url and wishes and categories escaping
+* call onresize on the page when iframe appears and disapears
 
 M2 (2h)
 * make buttons turn to typeahead comboboxes on hover
@@ -12,6 +13,9 @@ M4
 * support blame url in blur handler
 * check more than direct time in is_ripe_for_review
 * global setting for when to ask for review, and when to show others' alert
+
+M5
+* don't count time on sites when the regret bar is open
 
 
 LATER

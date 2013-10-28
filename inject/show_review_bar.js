@@ -1,5 +1,5 @@
 var initial_height = "35px";
-var expanded_height = "500px";
+var expanded_height = "400px";
 
 var iframe = document.createElement('iframe');
 iframe.src = chrome.extension.getURL('inject/review_bar.html?param=foo#fragment');
