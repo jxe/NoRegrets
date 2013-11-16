@@ -1,7 +1,7 @@
 No Regrets
 ==========
 
-No Regrets is a Chrome Extension that lets us share information about what we'd rather be doing that reading certain websites.
+No Regrets is a Chrome Extension that lets us share information about what we'd rather be doing than reading certain websites.
 
 
 ## Getting started
