@@ -132,6 +132,8 @@ iframe#page{
   text-decoration: none;
   top: 0px;
   right: 0px;
+  border-left: 1px solid rgba(255,255,255,.4);
+  border-bottom: 1px solid rgba(255,255,255,.4);
 }
 .close::after {
   content: "\2716";
@@ -143,8 +145,7 @@ iframe#page{
   font-size: 12px;
 }
 .close:hover {
-  color: #e6e6e6;
-  background-color: rgba(0,0,0,.4);
+  background-color: rgba(255,255,255,.4);
   cursor: pointer;
 }
 .close:active {

@@ -2,8 +2,6 @@ function openRegret(){
   // $('#page')
   //   .transition({scale: .5, boxShadow:"3px 3px 20px rgba(0,0,0,.5)"})
 
-  $('#bg').css({opacity: 1})
-
   $('#bg h1')
     .transition({
       fontSize: 30,
@@ -20,6 +18,8 @@ function openRegret(){
 
   $('#bg .more').fadeIn()
 
+  console.log($('#bg').css('cursor'))
+  $('#bg').css('cursor', 'default')
 }
 
 function closeRegret(){
