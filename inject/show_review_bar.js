@@ -55,12 +55,20 @@ if (!window.has_added_no_regrets_iframe){
       iframe.parentNode.removeChild(iframe);
       bodyStyle[cssTransform] = "translateY(0)";
       sendResponse({done: true});
-    } else if (request.open_shelf) {
+    }
 
+    if (request.hide_iframe){
+      setAnimationStyle('all 350ms ease-in-out')
+      iframe.style.height = initial_height;
+      bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
+    }
+
+    if (request.open_shelf) {
       setAnimationStyle('all 350ms ease-in-out')
       iframe.style.height = expanded_height;
       bodyStyle[cssTransform] = 'translateY(' + expanded_height + ')';
     }
+
   });
 
 }

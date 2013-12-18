@@ -116,6 +116,11 @@ chrome.runtime.onMessage.addListener(
         chrome.tabs.sendMessage(sender.tab.id, {close_iframe: true});
     }
 
+    if (request.just_hide){
+        sendResponse({on_it:true});
+        chrome.tabs.sendMessage(sender.tab.id, {hide_iframe: true});
+    }
+
   	if (request.rating){
 	  	sendResponse({on_it:true});
 	  	Page.add_rating(request);

@@ -13,6 +13,8 @@
  overflow: hidden;
 }
 
+p{ font-size: 15px;}
+
 #bg:hover{
  opacity: .8;
 }
@@ -151,3 +153,5 @@ iframe#page{
 .close:active {
   cursor: pointer;
  }
+
+ .clock{ padding-top: 10px; }

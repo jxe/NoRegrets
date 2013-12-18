@@ -2,25 +2,30 @@ function openRegret(){
   // $('#page')
   //   .transition({scale: .5, boxShadow:"3px 3px 20px rgba(0,0,0,.5)"})
 
-  $('#bg h1')
+  /*$('#bg h1')
     .transition({
       fontSize: 30,
       paddingTop: 20,
       left: '25%',
       paddingLeft: 0
     })
-    .text( $('#bg h1').text().slice(0,-3))
+    .text( $('#bg h1').text().slice(0,-3))*/
   
+  $('#bg h1').transition({opacity: 0})
+
   $('.more')
     .transition({
       left: '25%'
     })
 
   $('#bg .more').fadeIn()
-
-  console.log($('#bg').css('cursor'))
   $('#bg').css('cursor', 'default')
 }
+
+$('#bg h1').click(function(){
+  if( !window.regret_open ) return
+  chrome.runtime.sendMessage({ just_hide: true  }, function(response) {});
+})
 
 function closeRegret(){
   // $('#page').transition({top: 35})
@@ -107,6 +112,8 @@ function cute_summary_of_ratings(data){
 }
 
 $('body').click(function(){
+  if( window.regret_open ) return
+
   chrome.runtime.sendMessage({open_shelf:true})
   window.regret_open = true;
   openRegret();    
@@ -119,4 +126,7 @@ chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     $('#total_direct_time').html(moment.duration(response.url_data.dt, 'ms').humanize());
     $('#title').html(response.url_data.titles[0]);
     $('#others_rated').html(cute_summary_of_ratings(response.url_data.common_ratings));
+
+    var clock = $('.clock').FlipClock(response.url_data.dt/1000);
+    
 });
