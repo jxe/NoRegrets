@@ -22,15 +22,17 @@
 #bg h1{ font-size: 13px; padding: 10px; padding-left: 15px; position: relative;}
 #bg h2{ font-size: 20px; padding-bottom: 20px; padding-top: 0px;}
 
-.button{
- display: inline-block;
- border-radius: 8px;
- border: 1px solid white;
- background-color: rgba(255,255,255, .3);
- font-size: 18px;
- padding: 10px;
- margin-right: 20px;
- margin-top: 15px;
+form { display: inline-block; }
+
+input.button:not(:focus){
+	display: inline-block;
+	border-radius: 8px;
+	border: 1px solid white;
+	background-color: rgba(255,255,255, .3);
+	font-size: 18px;
+	padding: 10px;
+	margin-right: 20px;
+	margin-top: 15px;
 }
 
 .button:hover{

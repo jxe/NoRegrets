@@ -110,6 +110,12 @@ chrome.idle.onStateChanged.addListener(function(new_state){
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
+
+    if (request.just_close){
+        sendResponse({on_it:true});
+        chrome.tabs.sendMessage(sender.tab.id, {close_iframe: true});
+    }
+
   	if (request.rating){
 	  	sendResponse({on_it:true});
 	  	Page.add_rating(request);

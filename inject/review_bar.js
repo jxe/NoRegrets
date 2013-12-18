@@ -53,6 +53,10 @@ var review_data;
       // titles: titles,
       // rating: rating
 
+$('#close').click(function(){
+    chrome.runtime.sendMessage({ just_close: true  }, function(response) {});
+});
+
 function review_as(rating){
     chrome.runtime.sendMessage({
       rating: rating,
@@ -63,14 +67,22 @@ function review_as(rating){
     }, function(response) {});  
 }
 
-$('#tws').click(function(){
+$('#tws').submit(function(){
     var category = prompt("What for?");
     if (category) review_as('tws:' + category);
 });
 
-$('#suboptimal').click(function(){
+$('#suboptimal').submit(function(){
     var wish = prompt("What do you wish you'd been doing?");
     if (wish) review_as('suboptimal:' + wish);
+});
+
+$('#tws input').typeahead({
+  local: ['creative projects', 'learning', 'porn']
+});
+
+$('#suboptimal input').typeahead({
+  local: ['with girlfriend', 'jogging', 'reading a goddamn book']
 });
 
 function summarize_user_count_and_hours(subtree, what){
