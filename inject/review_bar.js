@@ -53,6 +53,10 @@ var review_data;
       // titles: titles,
       // rating: rating
 
+$('#close').click(function(){
+    chrome.runtime.sendMessage({ just_close: true  }, function(response) {});
+});
+
 function review_as(rating){
     chrome.runtime.sendMessage({
       rating: rating,
