@@ -18,19 +18,38 @@ if (!window.has_added_no_regrets_iframe){
   var cssTransform = 'transform' in bodyStyle ? 'transform' : 'webkitTransform';
   var cssTransition = 'transition' in bodyStyle ? 'transition' : 'webkitTransition';
   bodyStyle[cssTransform] = 'translateY(0px)';
-  
-  bodyStyle[cssTransition] = 'all .4s ease-out'
-  iframe.style[cssTransition] = 'all .4s ease-out'
 
+  function setAnimationStyle( animationString ){
+    bodyStyle[cssTransition] = iframe.style[cssTransition] = animationString
+  }
+
+  setAnimationStyle('all .4s ease-out')
+  
   setTimeout(function(){
     bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
     iframe.style.height = initial_height
   }, 20)
 
-  iframe.addEventListener('click', function() {
+  iframe.addEventListener('mouseover', function() {
+    setAnimationStyle('all 100ms ease-in')
+
+    wobble_height = parseInt(initial_height) + 5 + 'px'
+    iframe.style.height = wobble_height;
+    bodyStyle[cssTransform] = 'translateY(' + wobble_height + ')';
+
+    setTimeout(function(){
+      iframe.style.height = initial_height;
+      bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
+    },100)
+
+    //iframe.style.height = expanded_height;
+    //bodyStyle[cssTransform] = 'translateY(' + expanded_height + ')';
+  });
+
+  top.addEventListener('blur', function(){
     iframe.style.height = expanded_height;
     bodyStyle[cssTransform] = 'translateY(' + expanded_height + ')';
-  });
+  }, false)
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got something");

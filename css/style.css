@@ -14,7 +14,7 @@
 }
 
 #bg:hover{
- opacity: 1;
+ opacity: .8;
 }
 
 #bg .more{ position: relative;}
