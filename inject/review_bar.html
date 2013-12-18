@@ -7,14 +7,23 @@
   <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
+  <script src="typeahead.min.js"></script>
 </head>
 <body>
   <div id="bg">
     <h1>YOU'VE SPENT <span id="total_direct_time">3 hours</span> THIS WEEK ON <span id="url">REDDIT</span>...</h1>
     <div class="more">
       <h2>Mostly on pages like "<span id="title"></span>"</h2>
-      <div id="tws" class="button">That Was Time Well Spent!</div>
-      <div id="suboptimal" class="button">Instead, I Wish I Had...</div>
+
+
+      <form id="tws">
+        <input class="button" placeholder="That Was Time Well Spent!">
+      </form>
+
+      <form id="suboptimal" >
+        <input class="button" placeholder="Instead, I Wish I Had...">
+      </form>
+
       <div id="others_rated"></div>
     </div>
 

@@ -21,7 +21,9 @@
 #bg h1{ font-size: 13px; padding: 10px; padding-left: 15px; position: relative;}
 #bg h2{ font-size: 20px; padding-bottom: 20px; padding-top: 0px;}
 
-.button{
+form { display: inline-block; }
+
+input.button:not(:focus){
 	display: inline-block;
 	border-radius: 8px;
 	border: 1px solid white;
