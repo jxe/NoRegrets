@@ -7,10 +7,10 @@
  font-size: 30px;
  /*background-image: url(/images/bgs/sea.png);*/
  background: #66cc66;
- /*background-position: bottom;*/
  background-size: 100%;
  opacity: .8;
  cursor: pointer;
+ overflow: hidden;
 }
 
 #bg:hover{
@@ -53,7 +53,6 @@ iframe#page{
  border-top: 1px solid rgba(255,255,255,.8);
  background-color: white;
 }
-
 
 
 .typeahead,
@@ -119,3 +118,35 @@ iframe#page{
 .tt-suggestion p {
   margin: 0;
 }
+
+.close {
+  display: inline-block;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  color: white;
+  float: right;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  text-indent: -9999px;
+  position: absolute;
+  text-decoration: none;
+  top: 0px;
+  right: 0px;
+}
+.close::after {
+  content: "\2716";
+  text-indent: 0;
+  display: block;
+  position: absolute;
+  top: 9px;
+  right: 12px;
+  font-size: 12px;
+}
+.close:hover {
+  color: #e6e6e6;
+  background-color: rgba(0,0,0,.4);
+  cursor: pointer;
+}
+.close:active {
+  cursor: pointer;
+ }
