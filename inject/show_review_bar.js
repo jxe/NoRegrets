@@ -25,15 +25,20 @@ if (!window.has_added_no_regrets_iframe){
 
   setAnimationStyle('all .4s ease-out')
   
+  // Initial open animation
   setTimeout(function(){
     bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
     iframe.style.height = initial_height
   }, 20)
 
-  iframe.addEventListener('mouseover', function() {
-    setAnimationStyle('all 100ms ease-in')
-
+  // Little bounce on mouse over
+  iframe.addEventListener('mouseenter', function() {
     wobble_height = parseInt(initial_height) + 5 + 'px'
+  
+    // If the shelf is already open, change nothing. Like an oligarch during a financial crisis. 
+    if( parseInt(iframe.style.height) > parseInt(wobble_height) ) return;
+
+    setAnimationStyle('all 100ms ease-in')
     iframe.style.height = wobble_height;
     bodyStyle[cssTransform] = 'translateY(' + wobble_height + ')';
 
@@ -41,24 +46,21 @@ if (!window.has_added_no_regrets_iframe){
       iframe.style.height = initial_height;
       bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
     },100)
-
-    //iframe.style.height = expanded_height;
-    //bodyStyle[cssTransform] = 'translateY(' + expanded_height + ')';
-  });
-
-  top.addEventListener('blur', function(){
-    iframe.style.height = expanded_height;
-    bodyStyle[cssTransform] = 'translateY(' + expanded_height + ')';
-  }, false)
+  })
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got something");
-      if (request.close_iframe){
-        console.log("closing iframe");
-        iframe.parentNode.removeChild(iframe);
-        bodyStyle[cssTransform] = "translateY(0)";
-        sendResponse({done: true});
-      }
+    if (request.close_iframe){
+      console.log("closing iframe");
+      iframe.parentNode.removeChild(iframe);
+      bodyStyle[cssTransform] = "translateY(0)";
+      sendResponse({done: true});
+    } else if (request.open_shelf) {
+
+      setAnimationStyle('all 350ms ease-in-out')
+      iframe.style.height = expanded_height;
+      bodyStyle[cssTransform] = 'translateY(' + expanded_height + ')';
+    }
   });
 
 }

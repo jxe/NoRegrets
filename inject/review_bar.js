@@ -106,6 +106,12 @@ function cute_summary_of_ratings(data){
   // return "Others have rated it: " + JSON.stringify(Object.keys(data));
 }
 
+$('body').click(function(){
+  chrome.runtime.sendMessage({open_shelf:true})
+  window.regret_open = true;
+  openRegret();    
+})
+
 chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     console.log("got response to gimme_url_data: " + JSON.stringify(response));
     review_data = response.url_data;
@@ -114,10 +120,3 @@ chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     $('#title').html(response.url_data.titles[0]);
     $('#others_rated').html(cute_summary_of_ratings(response.url_data.common_ratings));
 });
-
-window.onresize = function(){
-  if (!window.regret_open){
-    window.regret_open = true;
-    openRegret();
-  }
-}

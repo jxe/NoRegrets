@@ -147,6 +147,10 @@ chrome.runtime.onMessage.addListener(
         }
     }
 
+    if(request.open_shelf){
+        chrome.tabs.sendMessage(sender.tab.id, request);
+    }
+
   }
 );
 
