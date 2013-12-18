@@ -33,8 +33,7 @@ chrome.tabs.query({active:true, currentWindow:true}, function(tabs){
 
 	var your_review = Page.has_been_reviewed(domain);
 	if (your_review) your_review = JSON.parse(your_review);
-	console.log(your_review);
-	console.log(your_review.rating);
+
 	if (your_review && your_review.rating){
 		var parts = your_review.rating.split(':');
 		if (parts[0] == 'tws'){
