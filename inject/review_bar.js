@@ -77,12 +77,19 @@ $('#suboptimal').submit(function(){
     if (wish) review_as('suboptimal:' + wish);
 });
 
+$('#tws input').on('focus', function(){ $('#suboptimal input').hide(); }).on('blur', function(){ $('#suboptimal input').show(); });
+$('#suboptimal input').on('focus', function(){ $('#tws input').hide(); }).on('blur', function(){ $('#tws input').show(); });
+
 $('#tws input').typeahead({
   local: ['creative projects', 'learning', 'porn']
+}).on('typeahead:selected', function(ev, chosen){
+  review_as('tws:' + chosen.value);
 });
 
 $('#suboptimal input').typeahead({
   local: ['with girlfriend', 'jogging', 'reading a goddamn book']
+}).on('typeahead:selected', function(ev, chosen){
+  review_as('suboptimal:' + chosen.value);
 });
 
 function summarize_user_count_and_hours(subtree, what){
