@@ -10,7 +10,7 @@
       "default_icon": "images/meditator.png",
       "default_name": "NoRegrets",
       "default_title": "No Regrets",
-      "DISABLED_default_popup": "popup.html"
+      "default_popup": "popup.html"
    },
    "content_scripts": [ {
       "js": [ "inject/content.js" ],
