@@ -2,16 +2,19 @@ function summarize_user_count_and_hours(subtree, what){
   return subtree.ct + " users who've spent a collective " + moment.duration(subtree.dt).humanize() + " found it " + what;
 }
 
-function cute_summary_of_ratings(data){
-  var findings = [];
+function total_time_string(data){
   var total_time = 0;
   if (data["tws:*"]) total_time += data["tws:*"].dt;
   if (data["suboptimal:*"]) total_time += data["suboptimal:*"].dt;
+  return "No Regrets users have spent <b>" + moment.duration(total_time).humanize() +"</b> here. ";
+}
 
-  var str = "No Regrets users have spent a total of " + moment.duration(total_time).humanize() +" here. ";
+function cute_summary_of_ratings(data){
+  var findings = [];
+  var str = '';
 
   if (data["tws:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "time well spent"));
-  if (data["suboptimal:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "suboptimal"));
+  if (data["suboptimal:*"]) findings.push(summarize_user_count_and_hours(data["suboptimal:*"], "suboptimal"));
 
   str += findings.join(' and ') + "<br>";
   if (data.top_wishes) str += "<br>Those that found it suboptimal wish they'd been: " + data.top_wishes.join(', ');
@@ -34,13 +37,15 @@ chrome.tabs.query({active:true, currentWindow:true}, function(tabs){
 	var your_review = Page.has_been_reviewed(domain);
 	if (your_review) your_review = JSON.parse(your_review);
 
+	document.getElementById('domain').innerHTML = domain;
+
 	if (your_review && your_review.rating){
 		var parts = your_review.rating.split(':');
 		if (parts[0] == 'tws'){
-			document.getElementById('you_summary').innerHTML = "You reviewed <b>" + domain + "</b> as Time Well Spent!";
+			document.getElementById('you_summary').innerHTML = "You said it was Time Well Spent!";
 		} else {			
-			document.getElementById('you_summary').innerHTML = "When you reviewed <b>" + domain + "</b> you said you wish you'd: " + parts[1];
-		}		
+			document.getElementById('you_summary').innerHTML = "You said you wish you'd: <b>" + parts[1] + "</b>";
+		}
 	} else {
 		document.getElementById('you_summary').innerHTML = "You haven't reviewed this yet.";
 	}
@@ -49,7 +54,7 @@ chrome.tabs.query({active:true, currentWindow:true}, function(tabs){
 	Page.common_ratings(domain, function(answer){
 		console.log(answer);
 		if (answer){
-			document.getElementById('community_summary').innerHTML = cute_summary_of_ratings(answer);
+			document.getElementById('community_summary').innerHTML = total_time_string(answer);
 		} else {
 			document.getElementById('community_summary').innerHTML = "No Regret users are new to this site.";
 		}

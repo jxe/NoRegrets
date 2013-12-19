@@ -2,18 +2,21 @@
 <html>
 <head>
     <title>No Regrets</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
-<script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
-<script src="js/nrhistory.js"></script>
-<script src="js/page.js"></script>    <script type="text/javascript" src="js/controller.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
+	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
+	<script src="js/nrhistory.js"></script>
+	<script src="js/page.js"></script>
+	<script src="js/controller.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body style="width: 300px">
-	<p id="you_summary"></p>
-	<p id="community_summary"></p>
-	<p style="text-align:center">
-		<a href="#" id="foo">Review this bitch</a>
-	</p>
+<body id="popup" style="width: 270px">
+	<div id="site_name">
+		<b id="domain"></b>
+		<a href="#" id="foo">Review it</a>
+	</div>
+	<div id="community_summary"></div>
+	<div id="you_summary"></div>
 </body>
 <script type="text/javascript" src="js/popup.js"></script>
 </html>

@@ -19,6 +19,32 @@ p{ font-size: 15px;}
  opacity: .8;
 }
 
+body#popup {
+	margin:0;
+	font-family: 'Montserrat', sans-serif;
+}
+
+#site_name {
+	color: rgb(22, 22, 22);
+	text-shadow: rgba(255, 255, 255, 0.29) 0px 1px 1px;	
+	text-align: center;	
+	padding: 10px 0px;
+}
+
+#you_summary {
+	padding: 10px;
+	color: rgb(22, 22, 22);
+	text-shadow: rgba(255, 255, 255, 0.29) 0px 1px 1px;	
+}
+
+#community_summary{
+	background: #66cc66;
+	padding: 10px;
+	color: rgb(22, 22, 22);
+	text-shadow: rgba(255, 255, 255, 0.29) 0px 1px 1px;
+}
+
+
 #bg .more{ position: relative;}
 
 #bg h1{ font-size: 13px; padding: 10px; padding-left: 15px; position: relative;}

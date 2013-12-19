@@ -104,7 +104,7 @@ function summarize_user_count_and_hours(subtree, what){
 function cute_summary_of_ratings(data){
   var findings = [];
   if (data["tws:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "time well spent"));
-  if (data["suboptimal:*"]) findings.push(summarize_user_count_and_hours(data["tws:*"], "suboptimal"));
+  if (data["suboptimal:*"]) findings.push(summarize_user_count_and_hours(data["suboptimal:*"], "suboptimal"));
   var str = findings.join(' and ') + "<br>";
   if (data.top_wishes) str += "<br>Those that found it suboptimal wish they'd been: " + data.top_wishes.join(', ');
   return str;
