@@ -25,7 +25,7 @@
    },
    "manifest_version": 2,
    "name": "NoRegrets",
-   "background": { "page": "main.html" },
+   "background": { "page": "popup.html" },
    "permissions": [ "tabs", "idle", "webRequest", "http://*/*", "https://*/*" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
    "version": "1.0"

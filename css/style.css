@@ -24,6 +24,21 @@ body#popup {
 	font-family: 'Montserrat', sans-serif;
 }
 
+#followup {
+	margin: 10px;
+}
+
+#followup button {
+	font-size:20px;
+}
+
+#wish {
+	display: block;
+	padding: 10px;
+	min-width: 600px;
+	margin-bottom: 20px;
+}
+
 #site_name {
 	color: rgb(22, 22, 22);
 	text-shadow: rgba(255, 255, 255, 0.29) 0px 1px 1px;	

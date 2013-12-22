@@ -31,9 +31,9 @@ Controller = {
 
 	show_review_prompt: function(tab, url, summary_data){
 		if (!summary_data) summary_data = NRHistory.query(url);
-		// console.log("show_review_prompt")
-		// TODO: do something with summary_data in show_review_prompt
+		console.log("show_review_prompt")
 		NoRegrets.url_data = summary_data;
+        console.log("summary_data", summary_data);
 		if (!summary_data.common_ratings){
 			Page.common_ratings(summary_data.url, function(answer){
 				summary_data.common_ratings = answer;
@@ -98,6 +98,7 @@ chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
     Controller.on_user_blurred_on_url();
 });
 
+
 chrome.idle.onStateChanged.addListener(function(new_state){
 	if (new_state != 'active'){
 		Controller.on_user_blurred_on_url();
@@ -124,12 +125,20 @@ chrome.runtime.onMessage.addListener(
   	if (request.rating){
 	  	sendResponse({on_it:true});
 	  	Page.add_rating(request);
-	  	chrome.tabs.sendMessage(sender.tab.id, {close_iframe: true});
+        if (request.followup_action != 'stay_open'){
+            chrome.tabs.sendMessage(sender.tab.id, {close_iframe: true});
+        }
   	}
 
   	if (request.gimme_url_data){
+        console.log('got request!');
   		var summary_data = NoRegrets.url_data;
+        if (!summary_data){
+            console.log('Impossible!');
+            return false;
+        }
 		if (!summary_data.common_ratings){
+            console.log('branch A!');
 			Page.common_ratings(summary_data.url, function(answer){
 		  		// console.log("sending url data after fb: " + JSON.stringify(summary_data));
 				summary_data.common_ratings = answer;
@@ -137,9 +146,11 @@ chrome.runtime.onMessage.addListener(
 			});
 			return true;
 		} else {
+            console.log('branch B!');
 	  		// console.log("sending url data: " + JSON.stringify(summary_data));
 		  	sendResponse({url_data:summary_data});			
 		}
+        console.log('response sent!');
   	}
 
     if(request.akce == 'content'){
