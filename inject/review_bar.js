@@ -22,15 +22,27 @@ function resizeBasedOnTypeahead(){
   chrome.runtime.sendMessage({open_shelf_to: height, duration: 100})  
 }
 
+function showBarMessage(msg){
+  $('.more').fadeIn()
+  $('#bar_msg').html(msg).css({opacity:1})
+  chrome.runtime.sendMessage({open_shelf_to: 35})    
+}
+
 $('#tws input').typeahead({
   local: ['creative projects', 'learning', 'porn']
 }).on('typeahead:selected change', function(ev, chosen){
-  review_as('tws:' + chosen.value);
+  var val = chosen ? chosen.value : ev.target.value
+  showBarMessage('GLAD THAT WAS TIME WELL SPENT ON: ' + val )
+  setTimeout(function(){
+    chrome.runtime.sendMessage({just_close: true})    
+  }, 4500)
+  //review_as('tws:' + val);
+
 }).on('keyup', resizeBasedOnTypeahead);
 
 $('#suboptimal input').typeahead({
   local: ['with girlfriend', 'jogging', 'reading a goddamn book', 'golfing', 'sleeping']
-}).on('typeahead:selected change', function(ev, chosen){
+}).one('typeahead:selected change', function(ev, chosen){
   var val = chosen ? chose.value : this.value;
   review_as('suboptimal:' + val, 'stay_open');
   $('.more').hide();
@@ -123,6 +135,7 @@ var panels = new Panels()
 
 $('#b_tws').click(function(){
   panels.show(1)
+  $('.return_hint').addClass("pulse")
   chrome.runtime.sendMessage({open_shelf_to: 200})
   $('.stats').animate({left: -1000, duration: 150, opacity: 0})
 })
@@ -130,6 +143,7 @@ $('#b_tws').click(function(){
 
 $('#b_rb').click(function(){
   panels.show(2)
+  $('.return_hint').addClass("pulse")
   chrome.runtime.sendMessage({open_shelf_to: 200})
   $('.stats').animate({left: -1000, duration: 150, opacity: 0})
 })

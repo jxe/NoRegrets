@@ -236,3 +236,29 @@ iframe#page{
 	opacity: .85;
 	position: relative;
 }
+
+.return_hint{
+	border: 1px solid rgba(255,255,255,.4);
+	background-color: rgba(255,255,255,.4);
+	padding: 5px;
+	width: 30px;
+	text-align: center;
+	border-radius: 3px;
+	position: absolute;
+	top: 55px;
+	left: 658px;
+	opacity: 0;
+}
+
+.pulse{
+ 	-webkit-animation: pulsate 10s ease-out;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-delay: 3000;
+	opacity: 0;
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: opacity: 0.05;}
+    50%{ opacity: .5;}
+    100% {opacity: 0.05;}
+}

@@ -47,9 +47,12 @@ if (!window.has_added_no_regrets_iframe){
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.close_iframe){
       console.log("closing iframe");
-      iframe.parentNode.removeChild(iframe);
-      bodyStyle[cssTransform] = "translateY(0)";
-      sendResponse({done: true});
+      bounceTo(0, 350)
+      setTimeout(function(){
+        iframe.parentNode.removeChild(iframe);  
+        bodyStyle[cssTransform] = "translateY(0)";
+        sendResponse({done: true});
+      }, 350 )
     }
 
     if (request.hide_iframe){
@@ -60,9 +63,9 @@ if (!window.has_added_no_regrets_iframe){
       bounceTo( expanded_height, 350 )
     }
 
-    if( request.open_shelf_to ) {
+    if( request.open_shelf_to !== null ) {
       console.log( 'here', request.open_shelf_to)
-      bounceTo( request.open_shelf_to, request.duration || 350 )
+      bounceTo( request.open_shelf_to , request.duration || 350 )
     }
 
   });
