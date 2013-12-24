@@ -1,10 +1,5 @@
 var review_data;
 
-$('#bg h1').click(function(){
-  if( !window.regret_open ) return
-  chrome.runtime.sendMessage({ just_hide: true  }, function(response) {});
-})
-
 $('#close').click(function(){
     chrome.runtime.sendMessage({ just_close: true  }, function(response) {});
 });
@@ -128,11 +123,24 @@ var panels = new Panels()
 
 $('#b_tws').click(function(){
   panels.show(1)
+  chrome.runtime.sendMessage({open_shelf_to: 200})
+  $('.stats').animate({left: -1000, duration: 150, opacity: 0})
 })
 
 
 $('#b_rb').click(function(){
   panels.show(2)
+  chrome.runtime.sendMessage({open_shelf_to: 200})
+  $('.stats').animate({left: -1000, duration: 150, opacity: 0})
+})
+
+$('.remind').click(function(){
+  var height = 550
+  chrome.runtime.sendMessage({open_shelf_to: height, duration: 350}) 
+  $('.stats').fadeIn()
+  $('.remind').hide()
+  setTimeout( jiggleGraph, 300 )
+
 })
 
 // For debugging: fake a click if the page is loaded directly

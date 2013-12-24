@@ -30,7 +30,6 @@ if (!window.has_added_no_regrets_iframe){
     setAnimationStyle('all '+duration+'ms ease-in')
     iframe.style.height = height + 'px';
     bodyStyle[cssTransform] = 'translateY(' + height + 'px)';
-    console.log('n')
   }
 
   function bounceTo(height, totalDuration){
@@ -38,7 +37,6 @@ if (!window.has_added_no_regrets_iframe){
         overshoot = height + distance*.05
         undershoot = height - distance*.03
 
-    console.log( distance, height, overshoot, undershoot )
     animateTo( overshoot, totalDuration*.6 )
     setTimeout(function(){ animateTo(height, totalDuration*.2) }, totalDuration*.8)
   }
@@ -47,7 +45,6 @@ if (!window.has_added_no_regrets_iframe){
   setTimeout(function(){ bounceTo(initial_height, 350)}, 20)
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log("got something");
     if (request.close_iframe){
       console.log("closing iframe");
       iframe.parentNode.removeChild(iframe);

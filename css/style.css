@@ -65,11 +65,7 @@ body#popup {
 #bg h1{ font-size: 13px; padding: 10px; padding-left: 15px; position: relative;}
 #bg h2{ font-size: 20px; padding-bottom: 20px; padding-top: 0px;}
 
-#stats{
-	margin-top: 40px;
-	position: relative;
-	top: 25px;
-}
+
 
 form { display: inline-block; }
 
@@ -99,7 +95,7 @@ form { display: inline-block; }
 	color: white;
 	max-width: 300px;
 	margin-right: 20px;
-	margin-top: 15px;
+	margin-top: 10px;
 	cursor: pointer !important;
 }
 
@@ -222,4 +218,21 @@ iframe#page{
   cursor: pointer;
  }
 
- .clock{ padding-top: 10px; }
+.remind{
+	display: block;
+	font-size: 11px;
+	margin-top: 25px;
+	opacity: .8;
+	cursor: pointer;
+}
+
+.remind:hover{
+	opacity: 1;
+	text-decoration: underline;
+}
+
+.stats{
+	display: none;
+	opacity: .85;
+	position: relative;
+}
