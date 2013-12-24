@@ -87,5 +87,8 @@ chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
 
 // For debugging: fake a click if the page is loaded directly
 if(top == self){
-  $('body').click()
+  setTimeout(function(){
+    $('body').click()  
+  }, 100)
+  
 }
