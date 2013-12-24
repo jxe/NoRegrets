@@ -84,3 +84,8 @@ chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     $('#others_rated').html(cute_summary_of_ratings(response.url_data.common_ratings));
     
 });
+
+// For debugging: fake a click if the page is loaded directly
+if(top == self){
+  $('body').click()
+}

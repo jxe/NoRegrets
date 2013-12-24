@@ -2,7 +2,7 @@ if (!window.has_added_no_regrets_iframe){
   window.has_added_no_regrets_iframe = true;  
 
   var initial_height = "35px";
-  var expanded_height = "500px";
+  var expanded_height = "200px";
   var iframe = document.createElement('iframe');
   iframe.src = chrome.extension.getURL('inject/review_bar.html?param=foo#fragment');
   iframe.style.height = 0;
