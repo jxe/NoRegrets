@@ -71,6 +71,7 @@ $('body').click(function(){
     })
   $('#bg .more').fadeIn()
   $('#bg').css('cursor', 'default');
+  jiggleGraph()
 })
 
 console.log('asking for review data');
@@ -81,5 +82,5 @@ chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     $('#total_direct_time').html(moment.duration(response.url_data.dt, 'ms').humanize());
     $('#title').html(response.url_data.titles[0]);
     $('#others_rated').html(cute_summary_of_ratings(response.url_data.common_ratings));
-    var clock = $('.clock').FlipClock(response.url_data.dt/1000);
+    
 });
