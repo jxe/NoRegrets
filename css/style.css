@@ -7,10 +7,10 @@
  font-size: 30px;
  background-image: url(/images/bgs/sea.png);
  background-size: 100%;
+ overflow:hidden;
  opacity: .8;
+ text-shadow: 0px 1px 5px rgba(0,0,0,0.1);
  cursor: pointer;
- overflow: hidden;
- text-shadow: 0px 1px 5px rgba(0,0,0,0.1)
 }
 
 p{ font-size: 15px;}
@@ -73,20 +73,50 @@ body#popup {
 
 form { display: inline-block; }
 
-input.button:not(:focus){
-	/*display: inline-block;*/
+.panels{
+	width: 4000px;
+	height: 150px;
+}
+
+.panel{
+	width: 800px;
+	height: 150px;
+	display: inline-block;
+}
+
+.panel:not(.active){
+	opacity: 0;
+}
+
+
+.button{
+	display: inline-block;
 	border-radius: 8px;
 	border: 1px solid white;
-	/*background-color: rgba(255,255,255, .3);*/
+	background-color: rgba(255,255,255, .3);
 	font-size: 18px;
 	padding: 10px;
-	/*max-width: 200px;*/
-	/*margin-right: 20px;*/
-	/*margin-top: 15px;*/
+	color: white;
+	max-width: 300px;
+	margin-right: 20px;
+	margin-top: 15px;
+	cursor: pointer !important;
 }
 
 .button:hover{
- /*background-color: rgba(255,255,255, .5);*/
+ background-color: rgba(255,255,255, .5);
+}
+
+
+
+.line{
+	border: none;
+	background: transparent;
+	width: 400px;
+	font-size: 24px;
+	border-bottom: 3px solid white;
+	color: white;
+	margin-top: 20px;
 }
 
 #others_rated { font-size: 13px; margin-top: 20px; max-width: 800px }
@@ -107,16 +137,11 @@ iframe#page{
 .typeahead,
 .tt-query,
 .tt-hint {
-  width: 326px;
-  height: 30px;
-  padding: 8px 12px;
-  font-size: 24px;
+  width: 700px;
+  height: 50px;  
+  font-size: 36px;
   line-height: 30px;
-  border: 2px solid #ccc;
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
-  outline: none;
+  outline: none !important;
 }
 
 .typeahead {
@@ -124,7 +149,7 @@ iframe#page{
 }
 
 .typeahead:focus {
-  border: 2px solid #0097cf;
+  /*border: 2px solid #0097cf;*/
 }
 
 .tt-query {
@@ -134,19 +159,15 @@ iframe#page{
 }
 
 .tt-hint {
-  color: #999
+  color: #999;
+  display: none;
 }
 
 .tt-dropdown-menu {
   width: 422px;
-  margin-top: 12px;
   padding: 8px 0;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
+  color: #333;
   -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
      -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
           box-shadow: 0 5px 10px rgba(0,0,0,.2);
@@ -160,7 +181,7 @@ iframe#page{
 
 .tt-suggestion.tt-is-under-cursor {
   color: #fff;
-  background-color: #0097cf;
+  background-color: #66cc66;
 
 }
 

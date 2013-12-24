@@ -17,17 +17,34 @@
     <h1>YOU'VE SPENT <span id="total_direct_time">3 hours</span> THIS WEEK ON <span class="url">REDDIT</span>&hellip;</h1>
     <a href="#" id="close" class="close"></a>
     <div class="more">
-      <h2>YOU'VE SPENT <span id="total_direct_time">5 HOURS</span> ON <span class="url">REDDIT</span></h2>      
-      <form id="tws">
-        <input class="button" placeholder="That Was Time Well Spent!">
-      </form>
+      
+      <div class="panels">
 
-      <form id="suboptimal" >
-        <input class="button" placeholder="Instead, I Wish I'd been...">
-      </form>
-      <div id="others_rated"></div>
+
+        <div class="panel active" id="base">
+
+          <h2>YOU SPENT <span id="total_direct_time">5 HOURS</span> ON <span class="url">REDDIT</span></h2>
+            <div class="button" id="b_tws">It was time well spent!</div>
+            <div class="button" id="b_rb">Actually, I'd have rather been...</div>
+          
+          
+        </div>
+
+        <div class="panel" id="tws">
+          <h2>What type of thing were you doing?</h2>
+          <input class="line"/>
+        </div>
+
+        <div class="panel" id="suboptimal">
+          <h2>What would you have rather been doing?</h2>
+          <input class="line"/>
+        </div>
+      </div>
+
+      
 
       <h2 id="stats">A BIT ABOUT HOW YOU'VE USED IT THIS WEEK:</h2>
+      <div id="others_rated"></div> 
       <div id="week_container">
         <div id="week"></div>
       </div>

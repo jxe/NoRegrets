@@ -20,24 +20,29 @@ function review_as(rating, followup_action){
     }, function(response) {});  
 }
 
-$('#tws input').on('focus', function(){ $('#suboptimal input').hide(); }).on('blur', function(){ $('#suboptimal input').show(); });
-$('#suboptimal input').on('focus', function(){ $('#tws input').hide(); }).on('blur', function(){ $('#tws input').show(); });
+function resizeBasedOnTypeahead(){
+  var el = $('.tt-dropdown-menu:visible'),
+      height = el.length > 0 ? el.height() + el.offset().top + 30 : 200
+  height = Math.max( 200, height )
+  chrome.runtime.sendMessage({open_shelf_to: height, duration: 100})  
+}
 
 $('#tws input').typeahead({
   local: ['creative projects', 'learning', 'porn']
 }).on('typeahead:selected change', function(ev, chosen){
   review_as('tws:' + chosen.value);
-});
+}).on('keyup', resizeBasedOnTypeahead);
 
 $('#suboptimal input').typeahead({
-  local: ['with girlfriend', 'jogging', 'reading a goddamn book']
+  local: ['with girlfriend', 'jogging', 'reading a goddamn book', 'golfing', 'sleeping']
 }).on('typeahead:selected change', function(ev, chosen){
   var val = chosen ? chose.value : this.value;
   review_as('suboptimal:' + val, 'stay_open');
   $('.more').hide();
   $('#followup').show();
   $('#followup textarea').val("Anyone want to go "+val+"? #noregrets");
-});
+}).on('keyup', resizeBasedOnTypeahead);
+
 
 $('#followup button').on('click', function(){
   var msg = $('#followup textarea').val();
@@ -64,6 +69,7 @@ $('body').click(function(){
   if( window.regret_open ) return
   chrome.runtime.sendMessage({open_shelf:true})
   window.regret_open = true;
+
   $('#bg h1').transition({opacity: 0})
   $('.more')
     .transition({
@@ -74,6 +80,8 @@ $('body').click(function(){
   jiggleGraph()
 })
 
+
+
 console.log('asking for review data');
 chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     review_data = response.url_data;
@@ -81,14 +89,55 @@ chrome.runtime.sendMessage({gimme_url_data: "please"}, function(response) {
     $('.url').html(response.url_data.url);
     $('#total_direct_time').html(moment.duration(response.url_data.dt, 'ms').humanize());
     $('#title').html(response.url_data.titles[0]);
-    $('#others_rated').html(cute_summary_of_ratings(response.url_data.common_ratings));
-    
+    $('#others_rated').each(function(){
+      cute_summary_of_ratings(response.url_data.common_ratings)
+      $(this).html(cute_summary_of_ratings(response.url_data.common_ratings));
+    })
 });
+
+
+
+function Panels(){
+  var offset = $('.panels').offset(),
+      curPanel = 0
+
+  this.show = function(panelNum){
+
+    $('.panel.active').css({position: 'absolute'}).animate({
+      left: -1000,
+      opacity: 0,
+      duration: 150
+    }).removeClass('active')
+
+    $('.panel').eq(panelNum).css({
+      left: 1000,
+      opacity: 0,
+      position: 'absolute'
+    }).delay(50).animate({
+      left: 0,
+      opacity: 1,
+      duration: 150
+    }).addClass('active')
+      .find('input').focus()
+
+    curPanel = panelNum
+  }
+}
+
+var panels = new Panels()
+
+$('#b_tws').click(function(){
+  panels.show(1)
+})
+
+
+$('#b_rb').click(function(){
+  panels.show(2)
+})
 
 // For debugging: fake a click if the page is loaded directly
 if(top == self){
   setTimeout(function(){
-    $('body').click()  
-  }, 100)
-  
+    $('body').click()
+  }, 100) 
 }

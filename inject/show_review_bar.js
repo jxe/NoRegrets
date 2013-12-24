@@ -1,8 +1,8 @@
 if (!window.has_added_no_regrets_iframe){
   window.has_added_no_regrets_iframe = true;  
 
-  var initial_height = "35px";
-  var expanded_height = "200px";
+  var initial_height = 35;
+  var expanded_height = 200;
   var iframe = document.createElement('iframe');
   iframe.src = chrome.extension.getURL('inject/review_bar.html?param=foo#fragment');
   iframe.style.height = 0;
@@ -12,6 +12,7 @@ if (!window.has_added_no_regrets_iframe){
   iframe.style.left = '0';
   iframe.style.border = "none";
   iframe.style.zIndex = '938089'; // Some high value
+  iframe.style['box-shadow'] = '0 1px 0 rgba(255,255,255,.4)'
   document.documentElement.appendChild(iframe);
 
   var bodyStyle = document.body.style;
@@ -24,29 +25,26 @@ if (!window.has_added_no_regrets_iframe){
   }
 
   setAnimationStyle('all .4s ease-out')
+
+  function animateTo(height, duration){
+    setAnimationStyle('all '+duration+'ms ease-in')
+    iframe.style.height = height + 'px';
+    bodyStyle[cssTransform] = 'translateY(' + height + 'px)';
+    console.log('n')
+  }
+
+  function bounceTo(height, totalDuration){
+    var distance = Math.abs(parseInt(iframe.style.height) - height),
+        overshoot = height + distance*.05
+        undershoot = height - distance*.03
+
+    console.log( distance, height, overshoot, undershoot )
+    animateTo( overshoot, totalDuration*.6 )
+    setTimeout(function(){ animateTo(height, totalDuration*.2) }, totalDuration*.8)
+  }
   
   // Initial open animation
-  setTimeout(function(){
-    bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
-    iframe.style.height = initial_height
-  }, 20)
-
-  // Little bounce on mouse over
-  iframe.addEventListener('mouseenter', function() {
-    wobble_height = parseInt(initial_height) + 5 + 'px'
-  
-    // If the shelf is already open, change nothing. Like an oligarch during a financial crisis. 
-    if( parseInt(iframe.style.height) > parseInt(wobble_height) ) return;
-
-    setAnimationStyle('all 100ms ease-in')
-    iframe.style.height = wobble_height;
-    bodyStyle[cssTransform] = 'translateY(' + wobble_height + ')';
-
-    setTimeout(function(){
-      iframe.style.height = initial_height;
-      bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
-    },100)
-  })
+  setTimeout(function(){ bounceTo(initial_height, 350)}, 20)
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got something");
@@ -58,15 +56,16 @@ if (!window.has_added_no_regrets_iframe){
     }
 
     if (request.hide_iframe){
-      setAnimationStyle('all 350ms ease-in-out')
-      iframe.style.height = initial_height;
-      bodyStyle[cssTransform] = 'translateY(' + initial_height + ')';
+      bounceTo( initial_height, 350 )
     }
 
     if (request.open_shelf) {
-      setAnimationStyle('all 350ms ease-in-out')
-      iframe.style.height = expanded_height;
-      bodyStyle[cssTransform] = 'translateY(' + expanded_height + ')';
+      bounceTo( expanded_height, 350 )
+    }
+
+    if( request.open_shelf_to ) {
+      console.log( 'here', request.open_shelf_to)
+      bounceTo( request.open_shelf_to, request.duration || 350 )
     }
 
   });
