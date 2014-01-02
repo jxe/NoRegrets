@@ -33,10 +33,10 @@ $('#tws input').typeahead({
 }).on('typeahead:selected change', function(ev, chosen){
   var val = chosen ? chosen.value : ev.target.value
   showBarMessage('GLAD THAT WAS TIME WELL SPENT ON: ' + val )
+  review_as('tws:' + val, 'stay_open');
   setTimeout(function(){
     chrome.runtime.sendMessage({just_close: true})    
   }, 4500)
-  //review_as('tws:' + val);
 
 }).on('keyup', resizeBasedOnTypeahead);
 
