@@ -1,9 +1,5 @@
 var review_data;
 
-$('#close').click(function(){
-    chrome.runtime.sendMessage({ just_close: true  }, function(response) {});
-});
-
 function review_as(rating, followup_action){
     chrome.runtime.sendMessage({
       rating: rating,
@@ -73,7 +69,7 @@ function cute_summary_of_ratings(data){
 }
 
 $('body').click(function(){
-  if( window.regret_open ) return
+  if( window.regret_open ) return true;
   chrome.runtime.sendMessage({open_shelf:true})
   window.regret_open = true;
 
@@ -85,8 +81,12 @@ $('body').click(function(){
   $('#bg .more').fadeIn()
   $('#bg').css('cursor', 'default');
   jiggleGraph()
-})
+});
 
+$('.close').click(function(){
+    console.log('sending close request');
+    chrome.runtime.sendMessage({ just_close: true  }, function(response) {});
+});
 
 
 console.log('asking for review data');

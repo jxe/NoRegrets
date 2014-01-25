@@ -113,6 +113,7 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
 
     if (request.just_close){
+        console.log('got close request');
         sendResponse({on_it:true});
         chrome.tabs.sendMessage(sender.tab.id, {close_iframe: true});
     }

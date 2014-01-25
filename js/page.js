@@ -48,7 +48,9 @@ Page = {
 
 	common_ratings: function(url, callback){
 		var eurl = Page.escape_url(url);
+		console.log('calling out to FB');
 		F.child('urls').child(eurl).limit(100).on('value', function(snap){
+			console.log('got data from FB');
 			var val = snap.val();
 			if (val) val.top_wishes = Page.wishes(val);
 			callback(val);

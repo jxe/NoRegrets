@@ -63,7 +63,7 @@ if (!window.has_added_no_regrets_iframe){
       bounceTo( expanded_height, 350 )
     }
 
-    if( request.open_shelf_to !== null ) {
+    if( request.open_shelf_to ) {
       console.log( 'here', request.open_shelf_to)
       bounceTo( request.open_shelf_to , request.duration || 350 )
     }
