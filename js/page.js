@@ -13,6 +13,7 @@ Page = {
 	},
 
 	is_ripe_for_review: function(url) {
+		if (url.match(/localhost|127/)) return false;
 		// console.log("checking is_ripe_for_review");
 		if (this.has_been_reviewed(url)) return false;
 		data = NRHistory.query(url);
